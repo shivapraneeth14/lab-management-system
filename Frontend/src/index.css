@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+/* 🔥 ROOT VARIABLES (KEEP CLEAN) */
+:root {
+  --text: #374151;
+  --text-h: #111827;
+  --bg: #f3f4f6;
+  --border: #e5e7eb;
+  --accent: #3b82f6;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* 🔥 BODY RESET */
+body {
+  margin: 0;
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* 🔥 FIX MAIN APP CONTAINER (IMPORTANT) */
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* 🔥 HEADINGS */
+h1 {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--text-h);
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-h);
+  margin-bottom: 10px;
+}
+
+/* 🔥 TEXT */
+p {
+  margin: 0;
+}
+
+/* 🔥 TABLE BASIC CLEANUP */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background: #f9fafb;
+  font-weight: 600;
+}
+
+td, th {
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* 🔥 INPUTS */
+input, select {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  border-radius: 6px;
+  outline: none;
+}
+
+input:focus, select:focus {
+  border-color: var(--accent);
+}
+
+/* 🔥 BUTTONS */
+button {
+  cursor: pointer;
+  border-radius: 6px;
+}
+/* 🔥 PRIMARY BUTTON */
+.btn-primary {
+  @apply bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded font-medium;
+}
+
+/* 🔥 SECONDARY BUTTON */
+.btn-secondary {
+  @apply bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded;
+}
+
+/* 🔥 INPUT */
+.input {
+  @apply w-full border-2 border-gray-300 rounded-lg px-4 py-2 
+         focus:outline-none focus:ring-2 focus:ring-blue-500 
+         focus:border-blue-500;
+}
+
+/* 🔥 CARD */
+.card {
+  @apply bg-white p-5 rounded shadow;
+}
+
+/* 🔥 STATUS BADGES */
+.badge-normal {
+  @apply text-green-600 font-semibold;
+}
+
+.badge-abnormal {
+  @apply text-red-600 font-semibold;
+}
+
+.badge-pending {
+  @apply text-gray-500 font-semibold;
+}
