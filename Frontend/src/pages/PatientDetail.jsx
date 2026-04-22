@@ -27,7 +27,7 @@ function PatientDetail() {
       .catch(err => console.log(err));
   };
 
-  // ✅ FILTER LOGIC (STATUS + TYPE + DATE)
+  // ✅ FILTER LOGIC
   const filteredReports = reports.filter(r => {
     const statusMatch =
       statusFilter === "All" || r.status === statusFilter;
@@ -62,48 +62,64 @@ function PatientDetail() {
         <p><span className="font-medium">Contact:</span> {patient.contact || "-"}</p>
       </div>
 
-      {/* FILTERS */}
-      <div className="flex flex-wrap gap-4 mb-4">
+      {/* 🔥 FILTER ROW (IMPROVED) */}
+      <div className="card mb-4">
+        <div className="flex flex-wrap gap-4 items-end">
 
-        {/* STATUS */}
-        <select
-          value={statusFilter}
-          onChange={e => setStatusFilter(e.target.value)}
-          className="input w-40"
-        >
-          <option value="All">All Status</option>
-          <option value="Normal">Normal</option>
-          <option value="Abnormal">Abnormal</option>
-          <option value="Pending">Pending</option>
-        </select>
+          {/* STATUS */}
+          <div>
+            <label className="block text-sm mb-1">Status</label>
+            <select
+              value={statusFilter}
+              onChange={e => setStatusFilter(e.target.value)}
+              className="input w-40"
+            >
+              <option value="All">All</option>
+              <option value="Normal">Normal</option>
+              <option value="Abnormal">Abnormal</option>
+              <option value="Pending">Pending</option>
+            </select>
+          </div>
 
-        {/* TYPE */}
-        <select
-          value={typeFilter}
-          onChange={e => setTypeFilter(e.target.value)}
-          className="input w-48"
-        >
-          <option value="All">All Types</option>
-          <option value="Blood Test">Blood Test</option>
-          <option value="Urine Test">Urine Test</option>
-          <option value="Lipid Panel">Lipid Panel</option>
-          <option value="Custom">Custom</option>
-        </select>
+          {/* TYPE */}
+          <div>
+            <label className="block text-sm mb-1">Report Type</label>
+            <select
+              value={typeFilter}
+              onChange={e => setTypeFilter(e.target.value)}
+              className="input w-48"
+            >
+              <option value="All">All</option>
+              <option value="Blood Test">Blood Test</option>
+              <option value="Urine Test">Urine Test</option>
+              <option value="Lipid Panel">Lipid Panel</option>
+              <option value="Custom">Custom</option>
+            </select>
+          </div>
 
-        {/* ✅ DATE RANGE */}
-        <input
-          type="date"
-          value={startDate}
-          onChange={e => setStartDate(e.target.value)}
-          className="input"
-        />
+          {/* FROM DATE */}
+          <div>
+            <label className="block text-sm mb-1">From</label>
+            <input
+              type="date"
+              value={startDate}
+              onChange={e => setStartDate(e.target.value)}
+              className="input"
+            />
+          </div>
 
-        <input
-          type="date"
-          value={endDate}
-          onChange={e => setEndDate(e.target.value)}
-          className="input"
-        />
+          {/* TO DATE */}
+          <div>
+            <label className="block text-sm mb-1">To</label>
+            <input
+              type="date"
+              value={endDate}
+              onChange={e => setEndDate(e.target.value)}
+              className="input"
+            />
+          </div>
+
+        </div>
       </div>
 
       {/* REPORTS TABLE */}
