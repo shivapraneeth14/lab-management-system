@@ -8,6 +8,10 @@ function PatientDetail() {
   const [statusFilter, setStatusFilter] = useState("All");
   const [typeFilter, setTypeFilter] = useState("All");
 
+  // ✅ DATE FILTER STATES
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
   useEffect(() => {
     API.get(`/patients/${id}`)
       .then(res => setData(res.data))
@@ -23,6 +27,7 @@ function PatientDetail() {
       .catch(err => console.log(err));
   };
 
+  // ✅ FILTER LOGIC (STATUS + TYPE + DATE)
   const filteredReports = reports.filter(r => {
     const statusMatch =
       statusFilter === "All" || r.status === statusFilter;
@@ -30,32 +35,37 @@ function PatientDetail() {
     const typeMatch =
       typeFilter === "All" || r.report_type === typeFilter;
 
-    return statusMatch && typeMatch;
+    const dateMatch =
+      (!startDate || new Date(r.report_date) >= new Date(startDate)) &&
+      (!endDate || new Date(r.report_date) <= new Date(endDate));
+
+    return statusMatch && typeMatch && dateMatch;
   });
 
   return (
     <div>
-      {/* 🔥 HEADER */}
+      {/* HEADER */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-semibold">{patient.name}</h1>
+        <h1 className="text-2xl font-semibold">
+          {patient.name || "Patient"}
+        </h1>
 
-        <Link
-          to={`/add-report/${id}`}
-          className="btn-primary"
-        >
+        <Link to={`/add-report/${id}`} className="btn-primary">
           + Add Report
         </Link>
       </div>
 
-      {/* 🔥 PATIENT INFO */}
+      {/* PATIENT INFO */}
       <div className="card mb-6">
-        <p><span className="font-medium">Age:</span> {patient.age}</p>
-        <p><span className="font-medium">Gender:</span> {patient.gender}</p>
-        <p><span className="font-medium">Contact:</span> {patient.contact}</p>
+        <p><span className="font-medium">Age:</span> {patient.age || "-"}</p>
+        <p><span className="font-medium">Gender:</span> {patient.gender || "-"}</p>
+        <p><span className="font-medium">Contact:</span> {patient.contact || "-"}</p>
       </div>
 
-      {/* 🔥 FILTERS */}
-      <div className="flex gap-4 mb-4">
+      {/* FILTERS */}
+      <div className="flex flex-wrap gap-4 mb-4">
+
+        {/* STATUS */}
         <select
           value={statusFilter}
           onChange={e => setStatusFilter(e.target.value)}
@@ -67,6 +77,7 @@ function PatientDetail() {
           <option value="Pending">Pending</option>
         </select>
 
+        {/* TYPE */}
         <select
           value={typeFilter}
           onChange={e => setTypeFilter(e.target.value)}
@@ -78,16 +89,31 @@ function PatientDetail() {
           <option value="Lipid Panel">Lipid Panel</option>
           <option value="Custom">Custom</option>
         </select>
+
+        {/* ✅ DATE RANGE */}
+        <input
+          type="date"
+          value={startDate}
+          onChange={e => setStartDate(e.target.value)}
+          className="input"
+        />
+
+        <input
+          type="date"
+          value={endDate}
+          onChange={e => setEndDate(e.target.value)}
+          className="input"
+        />
       </div>
 
-      {/* 🔥 REPORTS TABLE */}
+      {/* REPORTS TABLE */}
       <div className="card overflow-hidden">
         <h2 className="text-lg font-semibold mb-3">
           Reports
         </h2>
 
         {filteredReports.length === 0 ? (
-          <p>No reports found</p>
+          <p className="p-3">No reports found</p>
         ) : (
           <table className="w-full">
             <thead className="bg-gray-100 text-left">
