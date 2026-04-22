@@ -8,7 +8,7 @@ function PatientDetail() {
   const [statusFilter, setStatusFilter] = useState("All");
   const [typeFilter, setTypeFilter] = useState("All");
 
-  // ✅ DATE FILTER STATES
+  // DATE FILTER STATES
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
@@ -21,13 +21,20 @@ function PatientDetail() {
   const patient = data.patient || {};
   const reports = data.reports || [];
 
+  // ✅ FIXED DELETE (NO RELOAD)
   const handleDelete = (reportId) => {
     API.delete(`/reports/${reportId}`)
-      .then(() => window.location.reload())
+      .then(() => {
+        // remove from UI instantly
+        setData(prev => ({
+          ...prev,
+          reports: prev.reports.filter(r => r.id !== reportId)
+        }));
+      })
       .catch(err => console.log(err));
   };
 
-  // ✅ FILTER LOGIC
+  // FILTER LOGIC
   const filteredReports = reports.filter(r => {
     const statusMatch =
       statusFilter === "All" || r.status === statusFilter;
@@ -62,11 +69,10 @@ function PatientDetail() {
         <p><span className="font-medium">Contact:</span> {patient.contact || "-"}</p>
       </div>
 
-      {/* 🔥 FILTER ROW (IMPROVED) */}
+      {/* FILTER ROW */}
       <div className="card mb-4">
         <div className="flex flex-wrap gap-4 items-end">
 
-          {/* STATUS */}
           <div>
             <label className="block text-sm mb-1">Status</label>
             <select
@@ -81,7 +87,6 @@ function PatientDetail() {
             </select>
           </div>
 
-          {/* TYPE */}
           <div>
             <label className="block text-sm mb-1">Report Type</label>
             <select
@@ -97,7 +102,6 @@ function PatientDetail() {
             </select>
           </div>
 
-          {/* FROM DATE */}
           <div>
             <label className="block text-sm mb-1">From</label>
             <input
@@ -108,7 +112,6 @@ function PatientDetail() {
             />
           </div>
 
-          {/* TO DATE */}
           <div>
             <label className="block text-sm mb-1">To</label>
             <input
