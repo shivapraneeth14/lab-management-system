@@ -1,4 +1,4 @@
-# 🧪 Lab Management System
+# 🧪 pss-lab-report
 
 A full-stack web application to manage patients and their medical reports.  
 Built using **React (Frontend)** and **FastAPI (Backend)**.
